@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Favourite Dad Jokes</title>
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-beta3/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+  <div class="container mt-5">
+    <h1>Favourite Dad Jokes</h1>
+    <div id="favouritesContainer" class="mt-4"></div>
+  </div>
+
+  <script>
+    async function fetchFavourites() {
+      const response = await fetch('/favourites');
+      const data = await response.json();
+      const favouritesContainer = document.getElementById('favouritesContainer');
+      favouritesContainer.innerHTML = '';
+      data.forEach(joke => {
+        const jokeCard = document.createElement('div');
+        jokeCard.className = 'card mb-3';
+        jokeCard.innerHTML = `
+          <div class="card-body">
+            <p class="card-text">${joke.joke_text}</p>
+          </div>
+        `;
+        favouritesContainer.appendChild(jokeCard);
+      });
+    }
+
+    // Fetch favourites on page load
+    document.addEventListener('DOMContentLoaded', fetchFavourites);
+  </script>
+</body>
+</html>
